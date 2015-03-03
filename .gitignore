@@ -1,0 +1,7 @@
+# local ruby version and gemset
+.ruby-gemset
+.ruby-version
+.rvmrc
+
+# local neo4j instance
+neo4j/

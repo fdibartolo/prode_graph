@@ -1,0 +1,6 @@
+development:
+  encoding: utf8
+  adapter: postgresql
+  username: postgres
+  database: development
+  host: localhost
