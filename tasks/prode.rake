@@ -11,6 +11,7 @@ namespace :graph do
   desc "build graph with users and groups playing in"
   task :build do
     group_nodes = {}
+    team_nodes = {}
     User.all.each do |user|
       user_node = user.create_node! @neo
       user.groups.each do |group|
@@ -22,6 +23,18 @@ namespace :graph do
         end
         
         @neo.create_relationship("PLAYS_IN", user_node, group_node)
+      end
+
+      if user.team_id?
+        if team_nodes.keys.include? user.team_id
+          team_node = team_nodes[user.team_id]
+        else
+          team = Team.find(user.team_id)
+          team_node = team.create_node! @neo
+          team_nodes[user.team_id] = team_node
+        end
+        
+        @neo.create_relationship("SUPPORTS", user_node, team_node)
       end
 
       print_progress if user.id % 100 == 0
